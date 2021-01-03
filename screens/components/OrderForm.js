@@ -52,7 +52,6 @@ function OrderForm() {
         item,
       },
     });
-
     setAddItem('');
   };
 
@@ -73,6 +72,7 @@ function OrderForm() {
         </Item>
         <Item last style={{flex: 1}}>
           <Button
+            small
             style={{marginTop: 4}}
             onPress={() => {
               setShow(true);
@@ -110,7 +110,7 @@ function OrderForm() {
           />
         </Item>
         <Item last style={{flex: 2}}>
-          <Button style={{marginTop: 4}} onPress={submitItem}>
+          <Button small style={{marginTop: 4}} onPress={submitItem}>
             <Text>Add Item</Text>
           </Button>
         </Item>

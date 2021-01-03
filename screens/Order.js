@@ -22,6 +22,7 @@ import {
   Input,
 } from 'native-base';
 import OrderForm from './components/OrderForm';
+import OrderList from './components/OrderList';
 
 const Order = () => {
   return (
@@ -34,6 +35,7 @@ const Order = () => {
       </Header>
       <Content>
         <OrderForm />
+        <OrderList />
       </Content>
     </Container>
   );
