@@ -1,5 +1,7 @@
 export const initialState = {
   basket: [],
+  customers: [],
+  items: [],
 };
 
 //   export const calculateBasketTotal = (basket) => {
@@ -7,8 +9,11 @@ export const initialState = {
 //   };
 
 const reducer = (state, action) => {
-  console.log(action);
   switch (action.type) {
+    case 'LOAD_CUSTOMERS':
+      return {...state, customers: action.customer};
+    case 'LOAD_ITEMS':
+      return {...state, items: [...state.items, action.item]};
     case 'ADD_TO_BASKET':
       return {...state, basket: [...state.basket, action.item]};
     case 'REMOVE_FROM_BASKET':

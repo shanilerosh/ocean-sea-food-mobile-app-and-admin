@@ -1,17 +1,65 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Form, Item, Input, View, Button, Text} from 'native-base';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {Platform} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {useStateValue} from '../../central_state_mgt/StateProvider';
+import axios from '../../Axios';
+import {InputAutoSuggest} from 'react-native-autocomplete-search';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {FlatList} from 'react-native-gesture-handler';
 
-function OrderForm() {
+const OrderForm = () => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [txtDate, setTxtDate] = useState('');
   const [item, setAddItem] = useState('');
+  const [qty, setQty] = useState('');
+
   const [{basket}, setBasket] = useStateValue();
   const [state, dispatch] = useStateValue();
+  const [{customers}, setCustomers] = useStateValue();
+  const [{items}, setItems] = useStateValue();
+
+  useEffect(() => {
+    const loadAllCustomers = async () => {
+      const {data} = await axios({
+        method: 'GET',
+        url: '/customer/findAllCustomers',
+      });
+
+      if (data.isDone) {
+        dispatch({
+          type: 'LOAD_CUSTOMERS',
+          customer: data.data,
+        });
+      } else {
+        alert('Error');
+      }
+    };
+
+    loadAllCustomers();
+  }, []);
+
+  useEffect(() => {
+    const loadAllItems = async () => {
+      const {data} = await axios({
+        method: 'GET',
+        url: '/item/getAllItems',
+      });
+      if (data.isDone) {
+        dispatch({
+          type: 'LOAD_ITEMS',
+          item: data.data,
+        });
+      } else {
+        alert('Error');
+        //Error do this
+      }
+    };
+
+    loadAllItems();
+  }, []);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -50,9 +98,11 @@ function OrderForm() {
       type: 'ADD_TO_BASKET',
       item: {
         item,
+        qty,
       },
     });
     setAddItem('');
+    setQty('');
   };
 
   return (
@@ -76,7 +126,6 @@ function OrderForm() {
             style={{marginTop: 4}}
             onPress={() => {
               setShow(true);
-              console.log(date);
             }}>
             <Text>Set Date</Text>
           </Button>
@@ -95,9 +144,9 @@ function OrderForm() {
       </View>
       <View
         style={{
-          width: 300,
+          width: 400,
           flexDirection: 'row',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           alignContent: 'center',
         }}>
         <Item style={{flex: 4}}>
@@ -109,14 +158,35 @@ function OrderForm() {
             }}
           />
         </Item>
+        <Item style={{flex: 2, marginLeft: 10}}>
+          <Input
+            placeholder="Qty"
+            value={qty}
+            onChange={(e) => {
+              setQty(e.nativeEvent.text);
+            }}
+          />
+        </Item>
         <Item last style={{flex: 2}}>
           <Button small style={{marginTop: 4}} onPress={submitItem}>
             <Text>Add Item</Text>
           </Button>
         </Item>
       </View>
+      <View></View>
     </Form>
   );
-}
+};
+
+const getSuggestion = (data) => {
+  let arr = [];
+  data.map((item) => {
+    arr.push({
+      id: item._id,
+      name: item.customerName,
+    });
+  });
+  return arr;
+};
 
 export default OrderForm;
