@@ -5,20 +5,26 @@ import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import MainMenue from './screens/MainMenue';
+import Order from './screens/Order';
+import {StateProvider} from './central_state_mgt/StateProvider';
+import reducer, {initialState} from './central_state_mgt/Reducer';
 
 const Stack = createStackNavigator();
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen
-          name="MainMenue"
-          component={MainMenue}
-          options={{title: 'Main Menue'}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <StateProvider initstate={initialState} reducer={reducer}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen
+            name="MainMenue"
+            component={MainMenue}
+            options={{title: 'Main Menue'}}
+          />
+          <Stack.Screen name="Order" component={Order} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </StateProvider>
   );
 };
 

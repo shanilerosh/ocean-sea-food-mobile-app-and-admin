@@ -17,7 +17,7 @@ const Login = ({navigation}) => {
   const [password, setUserPassword] = useState('');
 
   const handleSubmit = () => {
-    navigation.navigate('MainMenue');
+    navigation.navigate('Order');
   };
 
   return (
