@@ -12,6 +12,8 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'LOAD_CUSTOMERS':
       return {...state, customers: action.customer};
+    case 'ADD_CUSTOMER':
+      return {...state, customers: [...state.customers, action.customer]};
     case 'LOAD_ITEMS':
       return {...state, items: [...state.items, action.item]};
     case 'ADD_TO_BASKET':

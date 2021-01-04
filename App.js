@@ -8,6 +8,7 @@ import MainMenue from './screens/MainMenue';
 import Order from './screens/Order';
 import {StateProvider} from './central_state_mgt/StateProvider';
 import reducer, {initialState} from './central_state_mgt/Reducer';
+import Customer from './screens/Customer';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -15,7 +16,7 @@ const App = () => {
     <StateProvider initstate={initialState} reducer={reducer}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Login" component={Customer} />
           <Stack.Screen
             name="MainMenue"
             component={MainMenue}
