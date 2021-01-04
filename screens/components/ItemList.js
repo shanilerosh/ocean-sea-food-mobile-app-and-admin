@@ -21,8 +21,8 @@ import CustomisableAlert, {
   showAlert,
 } from 'react-native-customisable-alert';
 
-const CustomerList = () => {
-  const [{customers}, setCustomers] = useStateValue();
+const ItemList = () => {
+  const [{items}, setItems] = useStateValue();
   const [renderList, setRenderList] = useState([]);
   const [state, dispatch] = useStateValue();
 
@@ -30,14 +30,14 @@ const CustomerList = () => {
     console.log(state);
     console.log('use effect runs');
     axios
-      .get('http://10.0.2.2:1234/api/v1/customer/findAllCustomers')
+      .get('http://10.0.2.2:1234/api/v1/item/getAllItems')
       .then(({data}) => {
         if (data.isDone) {
           dispatch({
-            type: 'LOAD_CUSTOMERS',
-            customer: data.data,
+            type: 'LOAD_ITEMS',
+            item: data.data,
           });
-          setRenderList(customers);
+          setRenderList(items);
         } else {
           Toast.show({
             text: 'Something Went Wrong',
@@ -57,28 +57,24 @@ const CustomerList = () => {
       });
   }, []);
 
-  useEffect(() => {
-    setRenderList(customers);
-  }, [customers]);
-
   const searchWithInput = ({nativeEvent}) => {
     const userInput = nativeEvent.text;
     let list = [];
     if (userInput !== '') {
-      customers.map((customer) => {
+      items.map((item) => {
         if (
-          customer.customerName
+          item.itemName
             .toString()
             .toLowerCase()
             .startsWith(userInput.toLowerCase())
         ) {
           console.log('here');
-          list.push(customer);
+          list.push(item);
           console.log('here 2');
         }
       });
     } else {
-      list = customers;
+      list = items;
     }
 
     setRenderList(list);
@@ -92,12 +88,12 @@ const CustomerList = () => {
             <Input placeholder="Type to search" onChange={searchWithInput} />
           </Item>
           <List>
-            {customers &&
+            {items &&
               renderList.map((data) => {
                 return (
                   <ListItem key={data._id}>
                     <Left>
-                      <Text>{data.customerName}</Text>
+                      <Text>{data.itemName}</Text>
                     </Left>
                     <Right>
                       <Button
@@ -117,16 +113,10 @@ const CustomerList = () => {
                                   width: '85%',
                                 }}>
                                 <Text style={{padding: 15}}>
-                                  Name : {data.customerName}
+                                  Item Name : {data.itemName}
                                 </Text>
                                 <Text style={{padding: 15}}>
-                                  Mobile : {data.customerMobile}
-                                </Text>
-                                <Text style={{padding: 15}}>
-                                  Address : {data.customerAddress}
-                                </Text>
-                                <Text style={{padding: 15}}>
-                                  NIC : {data.customerNIC}
+                                  Price per kG : {data.itemPrice}
                                 </Text>
                                 <Button onPress={() => closeAlert()}>
                                   <Text>Close</Text>
@@ -154,4 +144,4 @@ const CustomerList = () => {
   );
 };
 
-export default CustomerList;
+export default ItemList;

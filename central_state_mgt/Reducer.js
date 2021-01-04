@@ -15,7 +15,7 @@ const reducer = (state, action) => {
     case 'ADD_CUSTOMER':
       return {...state, customers: [...state.customers, action.customer]};
     case 'LOAD_ITEMS':
-      return {...state, items: [...state.items, action.item]};
+      return {...state, items: action.item};
     case 'ADD_TO_BASKET':
       return {...state, basket: [...state.basket, action.item]};
     case 'REMOVE_FROM_BASKET':
