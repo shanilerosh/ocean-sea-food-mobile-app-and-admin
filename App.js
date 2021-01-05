@@ -17,7 +17,7 @@ const App = () => {
     <StateProvider initstate={initialState} reducer={reducer}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={Order} />
+          <Stack.Screen name="Login" component={Login} />
           <Stack.Screen
             name="MainMenue"
             component={MainMenue}

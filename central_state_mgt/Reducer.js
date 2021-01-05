@@ -3,7 +3,7 @@ export const initialState = {
   customers: [],
   items: [],
   orders: [],
-  selectedCustomer: '',
+  selectedCustomer: {},
   requiredDate: '',
 };
 

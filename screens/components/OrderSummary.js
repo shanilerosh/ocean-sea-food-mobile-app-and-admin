@@ -49,12 +49,40 @@ const OrderSummary = () => {
     } else {
       //Porceed
       axios
-        .post('http://10.0.2.2:1234/api/v1/customer/findAllCustomers')
-        .then((data) => {
-
+        .post('http://10.0.2.2:1234/api/v1/order/placeorder', {
+          requiredDate,
+          items: basket,
+          customer: selectedCustomer,
+          user: {
+            userId: '1',
+            userName: 'Shanil',
+          },
+        })
+        .then(({data}) => {
+          console.log(data);
+          if (data.isDone) {
+            showAlert({
+              title: 'Order Successfully placed',
+              message: 'View your orders for further information',
+              alertType: 'success',
+            });
+            dispatch({
+              type: 'EMPTY_BASKET',
+            });
+          } else {
+            showAlert({
+              title: 'Error',
+              message: 'Something went wrong please try again',
+              alertType: 'error',
+            });
+          }
         })
         .catch((err) => {
-          
+          showAlert({
+            title: 'Error',
+            message: 'Something went wrong please try again',
+            alertType: 'error',
+          });
         });
     }
   };

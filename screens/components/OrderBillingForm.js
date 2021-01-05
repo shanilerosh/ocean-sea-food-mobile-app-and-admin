@@ -222,7 +222,10 @@ const OrderBillingForm = () => {
                           onPress={() => {
                             dispatch({
                               type: 'ADD_CUSTOMER_TO_ORDER',
-                              selectedCustomer: data._id,
+                              selectedCustomer: {
+                                id: data._id,
+                                customerName: data.customerName,
+                              },
                             });
                             setCustomerName(data.customerName);
                             setCustModal(false);
