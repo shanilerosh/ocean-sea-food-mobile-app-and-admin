@@ -21,7 +21,8 @@ import CustomisableAlert, {
   showAlert,
 } from 'react-native-customisable-alert';
 
-const CustomerList = () => {
+const CustomerList = (props) => {
+  const orderProcessing = props.orderProcessing;
   const [{customers}, setCustomers] = useStateValue();
   const [renderList, setRenderList] = useState([]);
   const [state, dispatch] = useStateValue();

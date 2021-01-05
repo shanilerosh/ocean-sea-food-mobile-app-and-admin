@@ -17,13 +17,14 @@ const App = () => {
     <StateProvider initstate={initialState} reducer={reducer}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={Items} />
+          <Stack.Screen name="Login" component={Order} />
           <Stack.Screen
             name="MainMenue"
             component={MainMenue}
             options={{title: 'Main Menue'}}
           />
           <Stack.Screen name="Order" component={Order} />
+          <Stack.Screen name="Customer" component={Customer} />
         </Stack.Navigator>
       </NavigationContainer>
     </StateProvider>

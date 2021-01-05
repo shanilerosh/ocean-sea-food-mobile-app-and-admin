@@ -4,27 +4,44 @@ import {useStateValue} from '../../central_state_mgt/StateProvider';
 
 const OrderList = () => {
   const [{basket}, setBasket] = useStateValue();
+  const [state, dispatch] = useStateValue();
+
+  useEffect(() => {
+    console.log('use effect basket', basket);
+  }, [basket]);
+
+  const removeItem = (id) => {
+    dispatch({
+      type: 'REMOVE_FROM_BASKET',
+      itemId: id,
+    });
+  };
 
   return (
     <List>
       {basket.length ? (
         basket.map((item) => {
           return (
-            <ListItem key={item.item}>
+            <ListItem key={item.itemId}>
               <Left>
-                <Text>{item.item}</Text>
-                <Text>{item.qty}</Text>
+                <Text>{item.itemName}</Text>
+                <Text>{item.itemQty}</Text>
               </Left>
               <Right>
-                <Button small danger>
-                  <Text>-</Text>
+                <Button
+                  small
+                  danger
+                  onPress={() => {
+                    removeItem(item.itemId);
+                  }}>
+                  <Text>--</Text>
                 </Button>
               </Right>
             </ListItem>
           );
         })
       ) : (
-        <Text>Add Items</Text>
+        <Text style={{textAlign: 'center'}}>Add Items</Text>
       )}
     </List>
   );
