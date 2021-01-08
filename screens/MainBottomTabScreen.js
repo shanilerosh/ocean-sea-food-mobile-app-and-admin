@@ -5,16 +5,30 @@ import Order from './Order';
 import Customer from './Customer';
 import Items from './Item';
 import Icon from 'react-native-vector-icons/Feather';
+import Dashboard from './Dashboard';
 
 const Tab = createMaterialBottomTabNavigator();
 
 function MainBottomTabScreen() {
   return (
     <Tab.Navigator
-      initialRouteName="Feed"
-      Login
+      initialRouteName="Dashboard"
       activeColor="white"
       barStyle={{backgroundColor: '#2c3e50'}}>
+      <Tab.Screen
+        name="Dashboard"
+        component={Dashboard}
+        options={{
+          tabBarLabel: 'Dashboard',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons
+              name="speedometer-slow"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      />
       <Tab.Screen
         name="Feed"
         component={Order}

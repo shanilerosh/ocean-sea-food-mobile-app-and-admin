@@ -12,7 +12,6 @@ import {
 } from 'native-base';
 import React, {useEffect} from 'react';
 import NumberFormat from 'react-number-format';
-import {Icon} from 'react-native-vector-icons/Feather';
 import {calculateBasketTotal} from '../../central_state_mgt/Reducer';
 import {useStateValue} from '../../central_state_mgt/StateProvider';
 import CustomisableAlert, {
@@ -26,10 +25,12 @@ const OrderSummary = () => {
   const [{selectedCustomer}, setSelectedCustomer] = useStateValue();
   const [{requiredDate}, setRequiredDate] = useStateValue();
   const [state, dispatch] = useStateValue();
+  const [{user}] = useStateValue();
   useEffect(() => {}, [basket]);
 
   const proceedOrder = () => {
-    if (!selectedCustomer) {
+    if (!selectedCustomer.customerName) {
+      console.log(selectedCustomer);
       showAlert({
         title: 'No Customer Selected',
         message: 'Please Select a Customer',
@@ -42,6 +43,7 @@ const OrderSummary = () => {
         alertType: 'error',
       });
     } else if (!basket.length) {
+      console.log('Comes here');
       showAlert({
         title: 'No Items Selected',
         message: 'Please Select Items to Proceed',
@@ -62,6 +64,7 @@ const OrderSummary = () => {
         .then(({data}) => {
           console.log(data);
           if (data.isDone) {
+            console.log('show');
             showAlert({
               title: 'Order Successfully placed',
               message: 'View your orders for further information',
@@ -96,7 +99,6 @@ const OrderSummary = () => {
         dispatch({
           type: 'EMPTY_BASKET',
         });
-        setSelectedCustomer('');
         closeAlert();
       },
     });

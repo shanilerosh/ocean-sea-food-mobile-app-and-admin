@@ -16,6 +16,7 @@ import {View, StyleSheet, Image} from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
+import {useStateValue} from '../../central_state_mgt/StateProvider';
 
 const reviewSchema = yup.object({
   username: yup.string().required().min(4),
@@ -23,6 +24,7 @@ const reviewSchema = yup.object({
 });
 
 const Login = ({navigation}) => {
+  const [state, dispatch] = useStateValue();
   const checkUser = (user) => {
     axios
       .post('http://10.0.2.2:1234/api/v1/user/checkUser', user)
@@ -38,6 +40,10 @@ const Login = ({navigation}) => {
             text: 'Successfully Logged in',
             postion: 'top',
             type: 'success',
+          });
+          dispatch({
+            type: 'LOG_IN_USER',
+            data: data.user,
           });
           navigation.navigate('MainScreen');
         }

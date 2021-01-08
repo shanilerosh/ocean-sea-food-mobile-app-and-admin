@@ -9,16 +9,23 @@ import reducer, {initialState} from './central_state_mgt/Reducer';
 import MainBottomTabScreen from './screens/MainBottomTabScreen';
 import Dashboard from './screens/Dashboard';
 import ViewOrderForm from './screens/components/ViewOrderForm';
+import CustomisableAlert from 'react-native-customisable-alert';
 
 const Stack = createStackNavigator();
 const App = () => {
   return (
     <StateProvider initstate={initialState} reducer={reducer}>
+      <CustomisableAlert
+        titleStyle={{
+          fontSize: 18,
+          fontWeight: 'bold',
+        }}
+      />
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Login"
           screenOptions={{headerShown: false}}>
-          <Stack.Screen name="Login" component={Dashboard} />
+          <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="MainScreen" component={MainBottomTabScreen} />
         </Stack.Navigator>
       </NavigationContainer>

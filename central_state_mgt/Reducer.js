@@ -6,6 +6,7 @@ export const initialState = {
   selectedCustomer: {},
   requiredDate: '',
   orderSet: [],
+  user: {},
 };
 
 export const calculateBasketTotal = (basket) => {
@@ -16,6 +17,8 @@ export const calculateBasketTotal = (basket) => {
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case 'LOG_IN_USER':
+      return {...state, user: action.data};
     case 'SET_RQ_DATE':
       return {...state, requiredDate: action.requiredDate};
     case 'LOAD_CUSTOMERS':

@@ -15,17 +15,19 @@ import {
   ListItem,
   Left,
 } from 'native-base';
-import {Title} from 'react-native-paper';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Badge, Title} from 'react-native-paper';
 import ViewOrderForm from './components/ViewOrderForm';
 import ViewOrderList from './components/ViewOrderList';
+import {useStateValue} from '../central_state_mgt/StateProvider';
 
 const Dashboard = () => {
+  const [{user}] = useStateValue();
+  console.log(user);
   return (
     <Container>
       <Header style={{backgroundColor: '#2c3e50'}}>
         <Body>
-          <Title>Dashboard</Title>
+          <Title style={{color: 'white'}}>Dashboard</Title>
         </Body>
         <Right />
       </Header>
@@ -53,9 +55,12 @@ const Dashboard = () => {
               </View>
 
               <View style={{flex: 2}}>
-                <Text>Shanil Miranda</Text>
-                <Text>Role</Text>
-                <Text>Yo Yo</Text>
+                <Text>{user.username}</Text>
+                <Text>{user.role}</Text>
+                <Text>Sales and Distribution</Text>
+                <Badge success>
+                  <Text>Ocean Sea Food Pvt</Text>
+                </Badge>
               </View>
             </Body>
           </CardItem>
