@@ -17,7 +17,6 @@ import {
   Root,
 } from 'native-base';
 import Modal from 'react-native-modal';
-import CustomerList from './CustomerList';
 import {useStateValue} from '../../central_state_mgt/StateProvider';
 import axios from 'axios';
 import NumberFormat from 'react-number-format';
@@ -70,14 +69,16 @@ const OrderBillingForm = () => {
   }, []);
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
-    setDate(currentDate);
-    setTxtDate(formatDate(currentDate.toString()));
-    dispatch({
-      type: 'SET_RQ_DATE',
-      requiredDate: currentDate,
-    });
+    if (selectedDate) {
+      const currentDate = selectedDate || date;
+      setShow(false);
+      setDate(currentDate);
+      setTxtDate(formatDate(currentDate.toString()));
+      dispatch({
+        type: 'SET_RQ_DATE',
+        requiredDate: currentDate,
+      });
+    }
   };
 
   const formatDate = (date) => {
@@ -187,9 +188,9 @@ const OrderBillingForm = () => {
 
           {/* Adding Items */}
           <Button
+            style={{backgroundColor: '#2980b9'}}
             block
             curve
-            warning
             onPress={() => {
               setItemModal(true);
             }}>
@@ -267,6 +268,7 @@ const OrderBillingForm = () => {
                         <Input
                           style={{flex: 2, marginLeft: 10}}
                           placeholder="Enter Qty"
+                          keyboardType="number-pad"
                           onChange={(e) => {
                             setQty(e.nativeEvent.text);
                           }}

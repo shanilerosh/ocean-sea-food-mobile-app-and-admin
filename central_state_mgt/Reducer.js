@@ -5,6 +5,7 @@ export const initialState = {
   orders: [],
   selectedCustomer: {},
   requiredDate: '',
+  orderSet: [],
 };
 
 export const calculateBasketTotal = (basket) => {
@@ -27,6 +28,8 @@ const reducer = (state, action) => {
       return {...state, loggedInUser: action.loggedInUser};
     case 'LOAD_ITEMS':
       return {...state, items: action.item};
+    case 'LOAD_ORDERS':
+      return {...state, orderSet: action.order};
     case 'EMPTY_BASKET':
       return {...state, basket: []};
     case 'ADD_TO_BASKET':
