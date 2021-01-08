@@ -83,6 +83,15 @@ const ItemList = () => {
   return (
     <Root>
       <Container>
+        <Text
+          style={{
+            textAlign: 'center',
+            marginTop: 10,
+            color: '#95a5a6',
+            marginTop: 10,
+          }}>
+          Search For Items
+        </Text>
         <Content>
           <Item>
             <Input placeholder="Type to search" onChange={searchWithInput} />

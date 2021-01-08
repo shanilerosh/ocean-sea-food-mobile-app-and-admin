@@ -13,11 +13,14 @@ import {
   Left,
   ListItem,
   List,
+  Toast,
+  Root,
 } from 'native-base';
 import Modal from 'react-native-modal';
 import CustomerList from './CustomerList';
 import {useStateValue} from '../../central_state_mgt/StateProvider';
 import axios from 'axios';
+import NumberFormat from 'react-number-format';
 
 const OrderBillingForm = () => {
   const [custModal, setCustModal] = useState(false);
@@ -25,8 +28,6 @@ const OrderBillingForm = () => {
   const [mode, setMode] = useState('date');
   const [date, setDate] = useState(new Date());
   const [customerName, setCustomerName] = useState('');
-  const [customerId, setCustomerId] = useState('');
-  const [customer, setCustomer] = useState('');
   const [show, setShow] = useState(false);
   const [qty, setQty] = useState('');
   const [txtDate, setTxtDate] = useState('');
@@ -45,7 +46,6 @@ const OrderBillingForm = () => {
             type: 'LOAD_CUSTOMERS',
             customer: data.data,
           });
-          console.log('here', customers);
           setRenderList(customers);
         } else {
         }
@@ -108,9 +108,7 @@ const OrderBillingForm = () => {
             .toLowerCase()
             .startsWith(userInput.toLowerCase())
         ) {
-          console.log('here');
           list.push(customer);
-          console.log('here 2');
         }
       });
     } else {
@@ -157,59 +155,59 @@ const OrderBillingForm = () => {
           {/* Date */}
           <View
             style={{
-              flex: 1,
               flexDirection: 'row',
               justifyContent: 'center',
               alignContent: 'center',
+              marginLeft: 8,
+              marginBottom: 10,
             }}>
             <Item style={{flex: 2}}>
               <Input placeholder="Required Date" disabled value={txtDate} />
             </Item>
-            <Item last style={{flex: 1}}>
-              <Button
-                small
-                style={{marginTop: 4}}
-                onPress={() => {
-                  setShow(true);
-                }}>
-                <Text>Set Date</Text>
-              </Button>
-              {show && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={date}
-                  mode={mode}
-                  is24Hour={true}
-                  display="default"
-                  minimumDate={new Date()}
-                  onChange={onChange}
-                />
-              )}
-            </Item>
+            <Button
+              small
+              style={{marginTop: 4}}
+              onPress={() => {
+                setShow(true);
+              }}>
+              <Text>Set Date</Text>
+            </Button>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                minimumDate={new Date()}
+                onChange={onChange}
+              />
+            )}
           </View>
 
           {/* Adding Items */}
-          <Item>
-            <Button
-              onPress={() => {
-                setItemModal(true);
-              }}>
-              <Text>Add Items</Text>
-            </Button>
-          </Item>
+          <Button
+            block
+            curve
+            warning
+            onPress={() => {
+              setItemModal(true);
+            }}>
+            <Text>Add Items</Text>
+          </Button>
         </Form>
-        {/* Modal1 */}
-        <Modal isVisible={custModal}>
+        {/* Modal1  Customer*/}
+        <Modal backdropColor="white" backdropOpacity={1} isVisible={custModal}>
           <View style={{flex: 1}}>
             <Input
-              placeholder="Please Select Item"
-              style={{height: 60}}
+              placeholder="Please Enter Customer Name"
+              style={{height: 40}}
               onChange={(e) => {
                 searchWithInputCust(e);
               }}
             />
-            <List>
-              {customers &&
+            <List style={{flex: 5}}>
+              {renderList &&
                 renderList.map((data) => {
                   return (
                     <ListItem key={data._id}>
@@ -218,6 +216,7 @@ const OrderBillingForm = () => {
                       </Left>
                       <Right>
                         <Button
+                          style={{width: 100, textAlign: 'center'}}
                           success
                           onPress={() => {
                             dispatch({
@@ -230,7 +229,7 @@ const OrderBillingForm = () => {
                             setCustomerName(data.customerName);
                             setCustModal(false);
                           }}>
-                          <Text>Select Customer</Text>
+                          <Text>Select</Text>
                         </Button>
                       </Right>
                     </ListItem>
@@ -241,7 +240,7 @@ const OrderBillingForm = () => {
         </Modal>
 
         {/* Item Modal */}
-        <Modal backdropColor="white" isVisible={itemModal}>
+        <Modal backdropColor="white" backdropOpacity={1} isVisible={itemModal}>
           <View style={{flex: 1}}>
             <Input
               placeholder="Please Add Item to Bucket"
@@ -255,9 +254,18 @@ const OrderBillingForm = () => {
                 renderListItem.map((data) => {
                   return (
                     <ListItem key={data._id}>
-                      <Left>
-                        <Text>{data.itemName}</Text>
+                      <Left style={{flex: 1}}>
+                        <Text style={{flex: 1}}>{data.itemName}</Text>
+                        <NumberFormat
+                          style={{flex: 2, color: 'blueviolet'}}
+                          value={data.itemPrice}
+                          displayType={'text'}
+                          thousandSeparator={true}
+                          prefix={'Rs.'}
+                          renderText={(value) => <Text>{value}</Text>}
+                        />
                         <Input
+                          style={{flex: 2, marginLeft: 10}}
                           placeholder="Enter Qty"
                           onChange={(e) => {
                             setQty(e.nativeEvent.text);
@@ -268,19 +276,20 @@ const OrderBillingForm = () => {
                         <Button
                           success
                           onPress={() => {
-                            console.log('Pressed', data._id);
-                            // Add to Bucket
-                            dispatch({
-                              type: 'ADD_TO_BASKET',
-                              item: {
-                                itemId: data._id,
-                                itemName: data.itemName,
-                                itemPrice: data.itemPrice,
-                                itemQty: qty,
-                              },
-                            });
-                            setItemModal(false);
-                            setQty('');
+                            if (!qty) {
+                            } else {
+                              dispatch({
+                                type: 'ADD_TO_BASKET',
+                                item: {
+                                  itemId: data._id,
+                                  itemName: data.itemName,
+                                  itemPrice: data.itemPrice,
+                                  itemQty: qty,
+                                },
+                              });
+                              setItemModal(false);
+                              setQty('');
+                            }
                           }}>
                           <Text>Add</Text>
                         </Button>

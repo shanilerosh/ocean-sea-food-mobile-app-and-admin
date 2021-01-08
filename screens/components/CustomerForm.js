@@ -10,25 +10,38 @@ import {
   View,
   Toast,
   Root,
+  H3,
 } from 'native-base';
 import axios from 'axios';
 // import axios from '../../Axios';
 import {useStateValue} from '../../central_state_mgt/StateProvider';
 import {log} from 'react-native-reanimated';
+import * as yup from 'yup';
+import {Formik} from 'formik';
+import {Badge} from 'react-native-paper';
+
+const customerSchema = yup.object({
+  customerName: yup.string().required().min(4),
+  customerAddress: yup.string().required().min(5),
+  customerMobile: yup
+    .number()
+    .typeError('You must enter a number')
+    .required()
+    .min(10),
+  customerNIC: yup.string().required().min(10),
+});
 
 const CustomerForm = () => {
   const [state, dispatch] = useStateValue();
-  const [custName, setCustname] = useState('');
-  const [custAddress, setCustomerAddress] = useState('');
-  const [custMobile, setCustmobile] = useState('');
-  const [custNic, setCustnic] = useState('');
-  const handleSubmit = () => {
+
+  const handleSubmit = (customer) => {
+    console.log(customer);
     axios
       .post('http://10.0.2.2:1234/api/v1/customer/saveCustomer', {
-        customerName: custName,
-        customerAddress: custAddress,
-        customerMobile: custMobile,
-        customerNIC: custNic,
+        customerName: customer.customerName,
+        customerAddress: customer.customerAddress,
+        customerMobile: customer.customerMobile,
+        customerNIC: customer.customerNIC,
       })
       .then(({data}) => {
         if (data.isDone) {
@@ -44,11 +57,10 @@ const CustomerForm = () => {
             customer: data.data,
           });
         } else {
-          console.log('Inside else');
           Toast.show({
-            text: `Error ${data.data}`,
+            text: `Error please try again`,
             buttonText: 'Okay',
-            type: 'success',
+            type: 'danger',
             postion: 'bottom',
           });
         }
@@ -63,69 +75,117 @@ const CustomerForm = () => {
       });
   };
 
-  const onCancel = () => {
-    setCustname('');
-    setCustomerAddress('');
-    setCustmobile('');
-    setCustnic('');
-  };
-
   return (
     <Root>
       <Container>
+        <Text
+          style={{
+            textAlign: 'center',
+            marginTop: 10,
+            color: '#95a5a6',
+            marginTop: 10,
+          }}>
+          Customer Registration
+        </Text>
         <Content style={{marginTop: 20}}>
-          <Form>
-            <Item>
-              <Input
-                placeholder="Customer Name"
-                value={custName}
-                onChange={(e) => {
-                  setCustname(e.nativeEvent.text);
-                }}
-              />
-            </Item>
-            <Item>
-              <Input
-                placeholder="Customer Address"
-                value={custAddress}
-                onChange={(e) => {
-                  setCustomerAddress(e.nativeEvent.text);
-                }}
-              />
-            </Item>
-            <Item>
-              <Input
-                placeholder="Customer Mobile"
-                value={custMobile}
-                onChange={(e) => {
-                  setCustmobile(e.nativeEvent.text);
-                }}
-              />
-            </Item>
-            <Item>
-              <Input
-                placeholder="Customer NIC"
-                value={custNic}
-                onChange={(e) => {
-                  setCustnic(e.nativeEvent.text);
-                }}
-              />
-            </Item>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                marginVertical: 10,
-              }}>
-              <Button success onPress={handleSubmit}>
-                <Text>Save Customer</Text>
-              </Button>
-              <Button danger onPress={onCancel}>
-                <Text>Cancel</Text>
-              </Button>
-            </View>
-          </Form>
+          <Formik
+            initialValues={{
+              customerName: '',
+              customerAddress: '',
+              customerMobile: '',
+              customerNIC: '',
+            }}
+            validationSchema={customerSchema}
+            onSubmit={(values, action) => {
+              handleSubmit(values);
+              action.resetForm();
+              console.log(values);
+            }}>
+            {(props) => (
+              <Form>
+                <Item>
+                  <Input
+                    placeholder="Customer Name"
+                    value={props.values.customerName}
+                    onChangeText={props.handleChange('customerName')}
+                    onBlur={props.handleBlur('customerName')}
+                  />
+                </Item>
+                <Text
+                  style={{
+                    color: 'red',
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                  }}>
+                  {props.touched.customerName && props.errors.customerName}
+                </Text>
+                <Item>
+                  <Input
+                    placeholder="Customer Address"
+                    value={props.values.customerAddress}
+                    onChangeText={props.handleChange('customerAddress')}
+                    onBlur={props.handleBlur('customerAddress')}
+                  />
+                </Item>
+                <Text
+                  style={{
+                    color: 'red',
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                  }}>
+                  {props.touched.customerAddress &&
+                    props.errors.customerAddress}
+                </Text>
+                <Item>
+                  <Input
+                    placeholder="Customer Mobile"
+                    value={props.values.customerMobile}
+                    onChangeText={props.handleChange('customerMobile')}
+                    onBlur={props.handleBlur('customerMobile')}
+                    keyboardType="number-pad"
+                  />
+                </Item>
+                <Text
+                  style={{
+                    color: 'red',
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                  }}>
+                  {props.touched.customerMobile && props.errors.customerMobile}
+                </Text>
+                <Item>
+                  <Input
+                    placeholder="Customer NIC"
+                    value={props.values.customerNIC}
+                    onChangeText={props.handleChange('customerNIC')}
+                    onBlur={props.handleBlur('customerNIC')}
+                  />
+                </Item>
+                <Text
+                  style={{
+                    color: 'red',
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                  }}>
+                  {props.touched.customerNIC && props.errors.customerNIC}
+                </Text>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    marginVertical: 10,
+                  }}>
+                  <Button success onPress={props.handleSubmit}>
+                    <Text>Save Customer</Text>
+                  </Button>
+                  <Button danger onPress={props.resetForm}>
+                    <Text>Cancel</Text>
+                  </Button>
+                </View>
+              </Form>
+            )}
+          </Formik>
         </Content>
       </Container>
     </Root>

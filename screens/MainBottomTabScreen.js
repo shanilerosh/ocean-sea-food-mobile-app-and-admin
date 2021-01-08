@@ -13,35 +13,39 @@ function MainBottomTabScreen() {
     <Tab.Navigator
       initialRouteName="Feed"
       Login
-      activeColor="#e91e63"
-      style={{backgroundColor: 'tomato'}}>
+      activeColor="white"
+      barStyle={{backgroundColor: '#2c3e50'}}>
       <Tab.Screen
         name="Feed"
         component={Order}
         options={{
           tabBarLabel: 'Order',
           tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
+            <MaterialCommunityIcons name="shopping" color={color} size={26} />
           ),
         }}
       />
       <Tab.Screen
-        name="Notifications"
+        name="Customer"
         component={Customer}
         options={{
-          tabBarLabel: 'Updates',
+          tabBarLabel: 'Customer',
           tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
+            <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="Items"
         component={Items}
         options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: 'Items',
           tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
+            <MaterialCommunityIcons
+              name="treasure-chest"
+              color={color}
+              size={26}
+            />
           ),
         }}
       />

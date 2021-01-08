@@ -8,6 +8,7 @@ import {
   Right,
   Badge,
   Button,
+  H3,
 } from 'native-base';
 import React, {useEffect} from 'react';
 import NumberFormat from 'react-number-format';
@@ -112,14 +113,14 @@ const OrderSummary = () => {
             </Badge>
           </View>
 
-          <View style={{flex: 1, flexDirection: 'row'}}>
+          <View style={{flex: 1, flexDirection: 'row', marginTop: 10}}>
             <Text style={{flex: 2}}>Total Amount:</Text>
             <NumberFormat
               value={calculateBasketTotal(basket)}
               displayType={'text'}
               thousandSeparator={true}
               prefix={'Rs.'}
-              renderText={(value) => <Text>{value}</Text>}
+              renderText={(value) => <H3>{value}</H3>}
             />
           </View>
           <View

@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
-import {List, ListItem, Text, Left, Right, Button} from 'native-base';
+import {List, ListItem, Text, Left, Right, Button, View} from 'native-base';
 import {useStateValue} from '../../central_state_mgt/StateProvider';
+import NumberFormat from 'react-number-format';
+import {Badge} from 'react-native-paper';
 
 const OrderList = () => {
   const [{basket}, setBasket] = useStateValue();
@@ -24,8 +26,29 @@ const OrderList = () => {
           return (
             <ListItem key={item.itemId}>
               <Left>
-                <Text>{item.itemName}</Text>
-                <Text>{item.itemQty}</Text>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text>{item.itemName}</Text>
+                  <Text>{item.itemQty}kg</Text>
+                  <NumberFormat
+                    value={item.itemPrice}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    prefix={'Rs.'}
+                    renderText={(value) => <Text>{value}</Text>}
+                  />
+                  <NumberFormat
+                    value={item.itemPrice * item.itemQty}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    prefix={'Rs.'}
+                    renderText={(value) => <Text>{value}</Text>}
+                  />
+                </View>
               </Left>
               <Right>
                 <Button

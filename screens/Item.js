@@ -26,7 +26,7 @@ import {
 const Items = () => {
   return (
     <Container>
-      <Header>
+      <Header style={{backgroundColor: '#2c3e50'}}>
         <Body>
           <Title>Item</Title>
         </Body>

@@ -28,7 +28,7 @@ import OrderSummary from './components/OrderSummary';
 const Order = () => {
   return (
     <Container>
-      <Header hasTabs>
+      <Header style={{backgroundColor:'#2c3e50'}}>
         <Body>
           <Title>Order</Title>
         </Body>

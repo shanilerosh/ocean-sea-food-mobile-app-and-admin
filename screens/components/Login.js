@@ -13,7 +13,6 @@ import {
   Toast,
 } from 'native-base';
 import {View, StyleSheet, Image} from 'react-native';
-import {cos} from 'react-native-reanimated';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
@@ -59,7 +58,12 @@ const Login = ({navigation}) => {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
+          backgroundColor: 'white',
         }}>
+        <Image
+          source={require('./assets/images/logo.png')}
+          style={{width: 250, height: 250}}
+        />
         <Formik
           initialValues={{username: '', password: ''}}
           validationSchema={reviewSchema}
@@ -90,6 +94,7 @@ const Login = ({navigation}) => {
                 <Input
                   onChangeText={props.handleChange('password')}
                   value={props.values.password}
+                  secureTextEntry={true}
                   onBlur={props.handleBlur('password')}
                 />
               </Item>
@@ -116,24 +121,5 @@ const Login = ({navigation}) => {
     </Root>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loginView: {
-    height: 180,
-    width: 400,
-  },
-  formItem: {
-    marginBottom: 30,
-  },
-  btn: {
-    alignSelf: 'center',
-    marginTop: 20,
-  },
-});
 
 export default Login;
