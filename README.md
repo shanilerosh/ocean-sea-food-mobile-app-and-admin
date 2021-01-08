@@ -18,11 +18,11 @@ Helping business to get rid of unncessary manual controls
 
 # Tech/framework used
 
-- React
-- React Router
+- React Native
+- React Navigator
 - Formik
 - Yup
-- Bootstrap
+- Native Base
 
 🚀 🚀 Build Instructions / How to start the project
 
