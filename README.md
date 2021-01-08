@@ -40,12 +40,12 @@ Helping business to get rid of unncessary manual controls
 
 ---
 
-[Sign In](https://i.ibb.co/34T5NQz/login.png) 
-[Dashboard](https://i.ibb.co/6BYgb6S/dashboard.png) 
-[PlaceOrder](https://i.ibb.co/WPmzZpY/placeorderform.png) 
-[Custome](https://i.ibb.co/5WwTtdb/customer.png) 
-[CustomerDetail](https://i.ibb.co/ws8SmGr/customer-Detail.png) 
-[Items](https://i.ibb.co/mSHjQwL/item.png) 
+![Sign In](https://i.ibb.co/34T5NQz/login.png) 
+![Dashboard](https://i.ibb.co/6BYgb6S/dashboard.png) 
+![PlaceOrder](https://i.ibb.co/WPmzZpY/placeorderform.png) 
+![Custome](https://i.ibb.co/5WwTtdb/customer.png) 
+![CustomerDetail](https://i.ibb.co/ws8SmGr/customer-Detail.png) 
+![Items](https://i.ibb.co/mSHjQwL/item.png) 
 
 
 ## Contributing
