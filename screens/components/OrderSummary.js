@@ -14,11 +14,17 @@ import React, {useEffect} from 'react';
 import NumberFormat from 'react-number-format';
 import {calculateBasketTotal} from '../../central_state_mgt/Reducer';
 import {useStateValue} from '../../central_state_mgt/StateProvider';
+import io from 'socket.io-client';
 import CustomisableAlert, {
   closeAlert,
   showAlert,
 } from 'react-native-customisable-alert';
 import axios from 'axios';
+
+//Connecting Socket
+const socket = io('http://10.0.2.2:1234/', {
+  transports: ['websocket', 'polling'],
+});
 
 const OrderSummary = () => {
   const [{basket}, setBasket] = useStateValue();
@@ -43,7 +49,6 @@ const OrderSummary = () => {
         alertType: 'error',
       });
     } else if (!basket.length) {
-      console.log('Comes here');
       showAlert({
         title: 'No Items Selected',
         message: 'Please Select Items to Proceed',
@@ -55,6 +60,7 @@ const OrderSummary = () => {
         .post('http://10.0.2.2:1234/api/v1/order/placeorder', {
           requiredDate,
           items: basket,
+          total: calculateBasketTotal(basket),
           customer: selectedCustomer,
           user: {
             userId: '1',
@@ -62,7 +68,6 @@ const OrderSummary = () => {
           },
         })
         .then(({data}) => {
-          console.log(data);
           if (data.isDone) {
             console.log('show');
             showAlert({
@@ -70,6 +75,7 @@ const OrderSummary = () => {
               message: 'View your orders for further information',
               alertType: 'success',
             });
+            socket.emit('placeOrder', data?.data);
             dispatch({
               type: 'EMPTY_BASKET',
             });
@@ -82,6 +88,7 @@ const OrderSummary = () => {
           }
         })
         .catch((err) => {
+          console.log(err);
           showAlert({
             title: 'Error',
             message: 'Something went wrong please try again',
