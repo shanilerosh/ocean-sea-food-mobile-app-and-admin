@@ -12,11 +12,13 @@ const ViewOrderForm = () => {
   const [txtDate, setTxtDate] = useState({dateFrom: '', dateTo: ''});
   const [show, setShow] = useState({dateFrom: false, dateTo: false});
   const [state, dispatch] = useStateValue();
+  const [{user}] = useStateValue();
 
   const populateOrders = () => {
+    console.log('Popu', user._id);
     axios
       .get(
-        `http://10.0.2.2:1234/api/v1/order/getOrdersByDate?userId=1&dateFrom=${date.dateFrom}&dateTo=${date.dateTo}`,
+        `https://ocean-sea-food-api.herokuapp.com/api/v1/order/getOrdersByDate?userId=${user.username}&dateFrom=${date.dateFrom}&dateTo=${date.dateTo}`,
       )
       .then(({data}) => {
         dispatch({

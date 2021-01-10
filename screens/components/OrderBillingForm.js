@@ -38,7 +38,9 @@ const OrderBillingForm = () => {
   //Load all customers
   useEffect(() => {
     axios
-      .get('http://10.0.2.2:1234/api/v1/customer/findAllCustomers')
+      .get(
+        'https://ocean-sea-food-api.herokuapp.com/api/v1/customer/findAllCustomers',
+      )
       .then(({data}) => {
         if (data.isDone) {
           dispatch({
@@ -54,7 +56,7 @@ const OrderBillingForm = () => {
 
   useEffect(() => {
     axios
-      .get('http://10.0.2.2:1234/api/v1/item/getAllItems')
+      .get('https://ocean-sea-food-api.herokuapp.com/api/v1/item/getAllItems')
       .then(({data}) => {
         if (data.isDone) {
           dispatch({

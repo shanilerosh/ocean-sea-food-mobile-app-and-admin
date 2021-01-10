@@ -37,12 +37,15 @@ const CustomerForm = () => {
   const handleSubmit = (customer) => {
     console.log(customer);
     axios
-      .post('http://10.0.2.2:1234/api/v1/customer/saveCustomer', {
-        customerName: customer.customerName,
-        customerAddress: customer.customerAddress,
-        customerMobile: customer.customerMobile,
-        customerNIC: customer.customerNIC,
-      })
+      .post(
+        'https://ocean-sea-food-api.herokuapp.com/api/v1/customer/saveCustomer',
+        {
+          customerName: customer.customerName,
+          customerAddress: customer.customerAddress,
+          customerMobile: customer.customerMobile,
+          customerNIC: customer.customerNIC,
+        },
+      )
       .then(({data}) => {
         if (data.isDone) {
           console.log('inside if');

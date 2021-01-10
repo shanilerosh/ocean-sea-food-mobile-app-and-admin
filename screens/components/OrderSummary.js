@@ -22,7 +22,7 @@ import CustomisableAlert, {
 import axios from 'axios';
 
 //Connecting Socket
-const socket = io('http://10.0.2.2:1234/', {
+const socket = io('https://ocean-sea-food-api.herokuapp.com/', {
   transports: ['websocket', 'polling'],
 });
 
@@ -57,17 +57,21 @@ const OrderSummary = () => {
     } else {
       //Porceed
       axios
-        .post('http://10.0.2.2:1234/api/v1/order/placeorder', {
-          requiredDate,
-          items: basket,
-          total: calculateBasketTotal(basket),
-          customer: selectedCustomer,
-          user: {
-            userId: '1',
-            userName: 'Shanil',
+        .post(
+          'https://ocean-sea-food-api.herokuapp.com/api/v1/order/placeorder',
+          {
+            requiredDate,
+            items: basket,
+            total: calculateBasketTotal(basket),
+            customer: selectedCustomer,
+            user: {
+              userId: user._id,
+              userName: user.username,
+            },
           },
-        })
+        )
         .then(({data}) => {
+          console.log(data);
           if (data.isDone) {
             console.log('show');
             showAlert({

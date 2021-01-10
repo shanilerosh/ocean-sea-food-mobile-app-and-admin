@@ -27,7 +27,10 @@ const Login = ({navigation}) => {
   const [state, dispatch] = useStateValue();
   const checkUser = (user) => {
     axios
-      .post('http://10.0.2.2:1234/api/v1/user/checkUser', user)
+      .post(
+        'https://ocean-sea-food-api.herokuapp.com/api/v1/user/checkUser',
+        user,
+      )
       .then(({data}) => {
         if (!data.isDone) {
           Toast.show({

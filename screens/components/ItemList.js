@@ -30,7 +30,7 @@ const ItemList = () => {
     console.log(state);
     console.log('use effect runs');
     axios
-      .get('http://10.0.2.2:1234/api/v1/item/getAllItems')
+      .get('https://ocean-sea-food-api.herokuapp.com/api/v1/item/getAllItems')
       .then(({data}) => {
         if (data.isDone) {
           dispatch({
